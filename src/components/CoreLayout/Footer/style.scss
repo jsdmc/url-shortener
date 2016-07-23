@@ -1,0 +1,24 @@
+$greyish: #b7b7b7;
+$white: #ffffff;
+$footerHeight: 48px;
+
+.footer {
+  width: 100%;
+  background-color: $greyish;
+
+  a, .copyright {
+    font-size: 12px;
+    color: $white;
+    text-decoration: underline;
+  }
+
+  .copyright{
+    text-decoration: none;
+  }
+
+  .row {
+    width: 100%;
+    height: $footerHeight;
+  }
+}
+

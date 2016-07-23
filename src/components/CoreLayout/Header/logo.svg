@@ -1,0 +1,7 @@
+<svg height="100" width="100">
+  <circle cx="20" cy="20" r="19" stroke="rgb(255, 255, 141)" stroke-width="2" fill="rgb(0, 188, 212)" />
+  <text x="50%" y="60%" text-anchor="middle" stroke="white" stroke-width="1px" style="font-size:13px">
+    Logo
+  </text>
+  Sorry, your browser does not support inline SVG.
+</svg>
