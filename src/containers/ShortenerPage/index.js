@@ -1,13 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
+import Shortener from 'components/Shortener';
 
 export const ShortenerPage = () => (
-  <div>
-    <div>Shortener page</div>
-
-    <RaisedButton label="Default" />
-  </div>
+  <Shortener />
 );
 
 ShortenerPage.propTypes = {

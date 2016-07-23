@@ -7,10 +7,11 @@ import rootSaga from './sagas';
 import config from 'config';
 
 const syncHistoryMiddleware = syncHistory(browserHistory);
+const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [
   applyMiddleware(
-    createSagaMiddleware(rootSaga),
+    sagaMiddleware,
     syncHistoryMiddleware
   )
 ];
@@ -27,6 +28,9 @@ export default function configureStore(initialState) {
     initialState,
     compose(...middlewares)
   );
+
+  // run sagas
+  sagaMiddleware.run(rootSaga);
 
   if (!config.isProduction) {
     syncHistoryMiddleware.listenForReplays(store);
