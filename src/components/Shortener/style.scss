@@ -1,3 +1,14 @@
-.contaner {
+.container {
+  max-width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+}
 
+.button {
+  width: 100px !important;
+}
+
+.inputRow {
+  height: 72px;
 }

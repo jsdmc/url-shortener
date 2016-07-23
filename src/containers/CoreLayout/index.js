@@ -5,9 +5,9 @@ import { Header, Footer } from 'components/CoreLayout';
 import style from './style.scss';
 
 export const CoreLayout = ({ children }) => (
-  <div className={ style.container }>
+  <div className={style.container}>
     <Header />
-    <div className={ style.children }>
+    <div className={style.children}>
       { children }
     </div>
     <Footer />

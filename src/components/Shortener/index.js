@@ -9,31 +9,52 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './form/validate';
 import { getShortenedUrl, getShortenerError } from 'redux-base/selectors/shortener';
 import { getShortUrlRequest } from 'redux-base/actions/shortener';
+import _noop from 'lodash/noop';
 
 import style from './style.scss';
+
+export const messages = {
+  urlFloatingLabel_emptyField: 'Paste a link to shorten it',
+  urlFloatingLabel_notEmptyField: 'Origin Link'
+};
 
 class Shortener extends Component {
 
   constructor(props) {
     super(props);
     this.onSubmit = this.props.handleSubmit(this.onSubmit);
+    this.state = {
+      urlFloatingLabel: messages.urlFloatingLabel_emptyField
+    };
   }
 
   onSubmit = ({ originUrl }) => {
     this.props.dispatch(getShortUrlRequest(originUrl));
   }
 
+  handleOnChangeUrl = (e) => {
+    const url = e.target.value.trim();
+    if (!url) {
+      this.setState({ urlFloatingLabel: messages.urlFloatingLabel_emptyField });
+    } else {
+      this.setState({ urlFloatingLabel: messages.urlFloatingLabel_notEmptyField });
+    }
+  }
+
+  refUrlTextField = c => this.urlTextField = c;
+
   render() {
     const { shortenedUrl, shortenerError } = this.props;
     return (
       <Grid className={style.container}>
-        <Row middle="xs" center="xs">
+        <Row middle="xs" center="xs" className={style.inputRow}>
           <Col xs={9}>
             <Field
+              ref={this.refUrlTextField}
               name="originUrl"
               component={TextField}
-              hintText="Origin Url"
-              floatingLabelText="Origin Url"
+              onChangeInterceptor={this.handleOnChangeUrl}
+              floatingLabelText={this.state.urlFloatingLabel}
               style={{ width: '100%' }}
             />
             {shortenerError &&
@@ -42,23 +63,34 @@ class Shortener extends Component {
           </Col>
           <Col xs={3}>
             <RaisedButton
-                label="Shorten"
-                onClick={this.onSubmit}
+              className={style.button}
+              label="Shorten"
+              onClick={this.onSubmit}
             />
           </Col>
         </Row>
-        <Row middle="xs" start="xs">
-          <Col xs={9}>
-            {
-              shortenedUrl &&
-              <div>
-                <span>Shrotened URL:</span>
-                <br/>
-                { shortenedUrl }
-              </div>
-            }
-          </Col>
-        </Row>
+        {shortenedUrl &&
+          <Row middle="xs" start="xs" className={style.inputRow}>
+            <Col xs={9}>
+
+                <TextField
+                  floatingLabelText="Shortened Link"
+                  onChange={_noop}
+                  value={shortenedUrl}
+                  style={{ width: '100%' }}
+                />
+
+            </Col>
+             <Col xs={3}>
+              <RaisedButton
+                className={style.button}
+                label="Copy"
+                primary
+                onClick={this.onSubmit}
+              />
+            </Col>
+          </Row>
+        }
       </Grid>
     );
   }
