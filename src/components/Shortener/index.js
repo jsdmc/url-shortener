@@ -28,6 +28,10 @@ class Shortener extends Component {
     };
   }
 
+  componentWillMount() {
+    // this.urlTextField.input.refs.input.focus();
+  }
+
   onSubmit = ({ originUrl }) => {
     this.props.dispatch(getShortUrlRequest(originUrl));
   }
@@ -41,8 +45,6 @@ class Shortener extends Component {
     }
   }
 
-  refUrlTextField = c => this.urlTextField = c;
-
   render() {
     const { shortenedUrl, shortenerError } = this.props;
     return (
@@ -50,7 +52,7 @@ class Shortener extends Component {
         <Row middle="xs" center="xs" className={style.inputRow}>
           <Col xs={9}>
             <Field
-              ref={this.refUrlTextField}
+              // ref={c => this.urlTextField = c}
               name="originUrl"
               component={TextField}
               onChangeInterceptor={this.handleOnChangeUrl}
@@ -72,21 +74,18 @@ class Shortener extends Component {
         {shortenedUrl &&
           <Row middle="xs" start="xs" className={style.inputRow}>
             <Col xs={9}>
-
-                <TextField
-                  floatingLabelText="Shortened Link"
-                  onChange={_noop}
-                  value={shortenedUrl}
-                  style={{ width: '100%' }}
-                />
-
+              <TextField
+                floatingLabelText="Shortened Link"
+                onChange={_noop}
+                value={shortenedUrl}
+                style={{ width: '100%' }}
+              />
             </Col>
-             <Col xs={3}>
+            <Col xs={3}>
               <RaisedButton
                 className={style.button}
                 label="Copy"
                 primary
-                onClick={this.onSubmit}
               />
             </Col>
           </Row>

@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
 export default function* apiRequest(promise, baseAction, action) {
-  const apiClient = axios;
+  const apiClient = yield axios.create();
 
   try {
     const response = yield call(promise, apiClient);
