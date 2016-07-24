@@ -193,7 +193,7 @@ describe('<Shortener />', () => {
       expect(document.activeElement).toEqual(inputDomNode)
     })
 
-    it('it should have focus on shortened Url when it mounted', () => {
+    it('it should have focus and selection on shortened Url when it mounted', () => {
       const { wrapper, store } = setup(null, { attachTo: testDomNode });
 
       const shorten_url = 'shortened url';
@@ -203,10 +203,14 @@ describe('<Shortener />', () => {
       });
       const inputDomNode  = wrapper.find(TextField).at(1).find('input').node;
 
-      expect(document.activeElement).toEqual(inputDomNode)
+      expect(document.activeElement).toEqual(inputDomNode);
+      // TODO: make it working in jsdom
+      if (window.hasOwnProperty('getSelection')) {
+        expect(window.getSelection().toString()).toEqual(shorten_url);
+      }
     });
 
-    it('it should have focus on shortened Url when new link processed', () => {
+    it('it should have focus and selection on shortened Url when new link processed', () => {
       const { wrapper, store } = setup(null, { attachTo: testDomNode });
 
       const shorten_url = 'shortened url';
@@ -224,7 +228,11 @@ describe('<Shortener />', () => {
       });
       const inputDomNode  = wrapper.find(TextField).at(1).find('input').node;
 
-      expect(document.activeElement).toEqual(inputDomNode)
+      expect(document.activeElement).toEqual(inputDomNode);
+      // TODO: make it working in jsdom
+      if (window.hasOwnProperty('getSelection')) {
+        expect(window.getSelection().toString()).toEqual('newShortLink');
+      }
     });
   })
 
