@@ -10,6 +10,7 @@ import validate from './form/validate';
 import { getShortenedUrl, getShortenerError } from 'redux-base/selectors/shortener';
 import { getShortUrlRequest } from 'redux-base/actions/shortener';
 import Clipboard from 'clipboard';
+import classnames from 'classnames';
 import _noop from 'lodash/noop';
 
 import style from './style.scss';
@@ -81,6 +82,7 @@ export class Shortener extends Component {
           </Col>
           <Col xs={3}>
             <RaisedButton
+              className={style.button}
               label="Shorten"
               onClick={this.onSubmit}
               fullWidth
@@ -102,7 +104,7 @@ export class Shortener extends Component {
             </Col>
             <Col xs={3}>
               <RaisedButton
-                className="copyToClipboard"
+                className={classnames(style.button, 'copyToClipboard')}
                 label="Copy"
                 primary
                 fullWidth
