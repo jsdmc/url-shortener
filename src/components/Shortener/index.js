@@ -18,7 +18,7 @@ export const messages = {
   urlFloatingLabel_notEmptyField: 'Origin Link'
 };
 
-class Shortener extends Component {
+export class Shortener extends Component {
 
   constructor(props) {
     super(props);
@@ -107,10 +107,12 @@ const mapStateToProps = (state) => ({
   shortenerError: getShortenerError(state)
 });
 
-export default compose(
+export const appliedHocs = [
   reduxForm({
     form: 'shortenerForm',
     validate
   }),
   connect(mapStateToProps)
-)(Shortener);
+];
+
+export default compose(...appliedHocs)(Shortener);

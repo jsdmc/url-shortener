@@ -1,1 +1,1 @@
-
+export Shortener from './Shortener';

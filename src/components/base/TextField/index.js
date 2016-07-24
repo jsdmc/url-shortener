@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
-import validationError from 'utils/validationError';
+import FieldError from '../FieldError';
 
 class EnhancedTextField extends Component {
 
@@ -13,13 +13,14 @@ class EnhancedTextField extends Component {
   }
 
   render() {
-    const { onChangeInterceptor, ...props } = this.props;
+    const { onChangeInterceptor, ...field } = this.props;
+    const { input, ...rest } = field;
     return (
       <TextField
-        errorText={validationError(props)}
-        {...props.input}
+        errorText={field.error && field.touched && <FieldError field={field} />}
+        {...input}
         onChange={this.handleOnChange}
-        {...props}
+        {...rest}
       />
     );
   }
