@@ -16,7 +16,7 @@ import styleFieldError from 'components/base/FieldError/style.scss';
 
 describe('<Shortener />', () => {
 
-  const setup = (props) => {
+  const setup = (props, options) => {
 
     const globalState = {};
     const store = createStore(globalState);
@@ -41,7 +41,8 @@ describe('<Shortener />', () => {
             React.createElement(comContaner, props)
           }
         </MuiThemeProvider>
-      </Provider>
+      </Provider>,
+      options
     );
     return {
       wrapper,
@@ -172,5 +173,59 @@ describe('<Shortener />', () => {
       })
     });
   });
+
+  describe('focus behaviour', () => {
+    let testDomNode = null;
+
+    beforeEach(() => {
+      testDomNode = document.createElement('div');
+      document.body.appendChild(testDomNode);
+    });
+
+    afterEach(() => {
+      document.body.removeChild(testDomNode);
+    });
+
+    it('should have focus on TextField when mounted', () => {
+      const { wrapper } = setup(null, { attachTo: testDomNode });
+      const inputDomNode = wrapper.find(Field).find('input').node;
+
+      expect(document.activeElement).toEqual(inputDomNode)
+    })
+
+    it('it should have focus on shortened Url when it mounted', () => {
+      const { wrapper, store } = setup(null, { attachTo: testDomNode });
+
+      const shorten_url = 'shortened url';
+      store.dispatch({
+        type: GET_SHORT_URL.SUCCESS,
+        response: { data: { shorten_url } }
+      });
+      const inputDomNode  = wrapper.find(TextField).at(1).find('input').node;
+
+      expect(document.activeElement).toEqual(inputDomNode)
+    });
+
+    it('it should have focus on shortened Url when new link processed', () => {
+      const { wrapper, store } = setup(null, { attachTo: testDomNode });
+
+      const shorten_url = 'shortened url';
+      store.dispatch({
+        type: GET_SHORT_URL.SUCCESS,
+        response: { data: { shorten_url } }
+      });
+      // make sure it's not focus from 'componenDidMount'
+      const urlTextField = wrapper.find(Field);
+      urlTextField.node.getRenderedComponent().focus();
+      // update shorten_url
+      store.dispatch({
+        type: GET_SHORT_URL.SUCCESS,
+        response: { data: { shorten_url: 'newShortLink' } }
+      });
+      const inputDomNode  = wrapper.find(TextField).at(1).find('input').node;
+
+      expect(document.activeElement).toEqual(inputDomNode)
+    });
+  })
 
 });

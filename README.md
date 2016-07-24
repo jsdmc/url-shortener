@@ -15,3 +15,7 @@ and then
 
 Run tests in console
 - npm test
+
+Prepare build for deploy (output in ./dist folder)
+- npm run build
+

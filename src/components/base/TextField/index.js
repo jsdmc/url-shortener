@@ -4,6 +4,23 @@ import FieldError from '../FieldError';
 
 class EnhancedTextField extends Component {
 
+  componentDidMount() {
+    this.processFocus();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.autoFocus && this.props.value !== prevProps.value) {
+      this.processFocus();
+    }
+  }
+
+  processFocus() {
+    if (this.props.autoFocus) {
+      this.focus();
+      this.textField.select();
+    }
+  }
+
   handleOnChange = (e) => {
     const { input } = this.props;
     if (input.onChangeInterceptor) {
@@ -12,11 +29,16 @@ class EnhancedTextField extends Component {
     input.onChange(e);
   }
 
+  focus = () => {
+    this.textField.focus();
+  }
+
   render() {
-    const { onChangeInterceptor, ...field } = this.props;
+    const { onChangeInterceptor, autoFocus, ...field } = this.props;
     const { input, ...rest } = field;
     return (
       <TextField
+        ref={c => this.textField = c}
         errorText={field.error && field.touched && <FieldError field={field} />}
         {...input}
         onChange={this.handleOnChange}
@@ -28,7 +50,9 @@ class EnhancedTextField extends Component {
 
 EnhancedTextField.propTypes = {
   input: PropTypes.object,
-  onChangeInterceptor: PropTypes.func
+  onChangeInterceptor: PropTypes.func,
+  autoFocus: PropTypes.bool,
+  value: PropTypes.string
 };
 
 export default EnhancedTextField;

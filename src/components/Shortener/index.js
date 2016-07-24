@@ -18,6 +18,10 @@ export const messages = {
   urlFloatingLabel_notEmptyField: 'Origin Link'
 };
 
+const muiStyle = {
+  width100: { width: '100%' }
+};
+
 export class Shortener extends Component {
 
   constructor(props) {
@@ -28,8 +32,8 @@ export class Shortener extends Component {
     };
   }
 
-  componentWillMount() {
-    // this.urlTextField.input.refs.input.focus();
+  componentDidMount() {
+    this.urlTextField.getRenderedComponent().focus();
   }
 
   onSubmit = ({ originUrl }) => {
@@ -52,12 +56,13 @@ export class Shortener extends Component {
         <Row middle="xs" center="xs" className={style.inputRow}>
           <Col xs={9}>
             <Field
-              // ref={c => this.urlTextField = c}
+              ref={c => this.urlTextField = c}
+              withRef
               name="originUrl"
               component={TextField}
               onChangeInterceptor={this.handleOnChangeUrl}
               floatingLabelText={this.state.urlFloatingLabel}
-              style={{ width: '100%' }}
+              style={muiStyle.width100}
             />
             {shortenerError &&
               <FieldError error={shortenerError} />
@@ -65,9 +70,10 @@ export class Shortener extends Component {
           </Col>
           <Col xs={3}>
             <RaisedButton
-              className={style.button}
               label="Shorten"
               onClick={this.onSubmit}
+              fullWidth
+              style={muiStyle.width100}
             />
           </Col>
         </Row>
@@ -75,17 +81,20 @@ export class Shortener extends Component {
           <Row middle="xs" start="xs" className={style.inputRow}>
             <Col xs={9}>
               <TextField
+                autoFocus
                 floatingLabelText="Shortened Link"
+                floatingLabelFixed
                 onChange={_noop}
                 value={shortenedUrl}
-                style={{ width: '100%' }}
+                style={muiStyle.width100}
               />
             </Col>
             <Col xs={3}>
               <RaisedButton
-                className={style.button}
                 label="Copy"
                 primary
+                fullWidth
+                style={muiStyle.width100}
               />
             </Col>
           </Row>
