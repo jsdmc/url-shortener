@@ -13,7 +13,7 @@ and then
 - npm run test:browser
 
 
-Run tests in console
+Run tests in console (currenly broken, because of using clipboard, needed mocks for jsdom)
 - npm test
 
 Prepare build for deploy (output in ./dist folder)

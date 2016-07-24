@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './form/validate';
 import { getShortenedUrl, getShortenerError } from 'redux-base/selectors/shortener';
 import { getShortUrlRequest } from 'redux-base/actions/shortener';
+import Clipboard from 'clipboard';
 import _noop from 'lodash/noop';
 
 import style from './style.scss';
@@ -34,6 +35,16 @@ export class Shortener extends Component {
 
   componentDidMount() {
     this.urlTextField.getRenderedComponent().focus();
+    this.clipboard = new Clipboard(
+      '.copyToClipboard button',
+      {
+        text: () => this.props.shortenedUrl
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.clipboard.destroy();
   }
 
   onSubmit = ({ originUrl }) => {
@@ -91,6 +102,7 @@ export class Shortener extends Component {
             </Col>
             <Col xs={3}>
               <RaisedButton
+                className="copyToClipboard"
                 label="Copy"
                 primary
                 fullWidth
@@ -119,6 +131,7 @@ const mapStateToProps = (state) => ({
 export const appliedHocs = [
   reduxForm({
     form: 'shortenerForm',
+    destroyOnUnmount: false,
     validate
   }),
   connect(mapStateToProps)
